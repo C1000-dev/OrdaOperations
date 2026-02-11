@@ -69,4 +69,3 @@ Recommended hosts:
 - GitHub Pages (pages.github.com)
 
 Your ORDA website is ready to dominate! 💀
-
