@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games - ORDA</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .games-hero {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--black);
+            padding-top: 120px;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+        
+        .game-card {
+            background: var(--dark-gray);
+            padding: 40px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .game-card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .game-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        .game-name {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+        
+        .suggest-section {
+            background: var(--dark-gray);
+            padding: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .suggest-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 20px;
+            font-size: 18px;
+            background: var(--black);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            outline: none;
+            font-family: inherit;
+            letter-spacing: 1px;
+        }
+        
+        .search-input:focus {
+            border-color: var(--white);
+        }
+        
+        .search-input::placeholder {
+            color: var(--gray);
+        }
+        
+        .suggest-button {
+            margin-top: 20px;
+            background: var(--white);
+            color: var(--black);
+            padding: 18px 50px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .suggest-button:hover {
+            background: var(--black);
+            color: var(--white);
+            outline: 2px solid var(--white);
+        }
+        
+        .suggest-note {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="logo-transparent.png" alt="ORDA" class="nav-logo-img">
+                <span class="logo-text">ORDER OF RUTHLESS DOMINION AND AUTHORITY</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="index.html#about">ABOUT</a></li>
+                <li><a href="games.html">GAMES</a></li>
+                <li><a href="ranks.html">RANKS</a></li>
+            </ul>
+            <a href="https://discord.gg/hePEwEnukn" target="_blank" class="nav-button">JOIN SERVER</a>
+        </div>
+    </nav>
+
+    <!-- Games Hero -->
+    <section class="games-hero">
+        <div class="container">
+            <p class="section-label" style="text-align: center;">OUR GAMES</p>
+            <h1 class="section-title-center" style="margin-bottom: 30px;">GAMES WE RAID</h1>
+        </div>
+    </section>
+
+    <!-- Games Grid -->
+    <section style="padding: 80px 0; background: var(--black);">
+        <div class="container">
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-icon">🎮</div>
+                    <h3 class="game-name">ANOMIC</h3>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">🏙️</div>
+                    <h3 class="game-name">TOWN</h3>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">🔫</div>
+                    <h3 class="game-name">DAHOOD</h3>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">➕</div>
+                    <h3 class="game-name">MORE</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Suggest Game -->
+    <section style="padding: 80px 0; background: var(--black);">
+        <div class="container">
+            <div class="suggest-section">
+                <h2 class="suggest-title">SUGGEST A GAME</h2>
+                <p style="color: #c0c0c0; margin-bottom: 30px;">Think we should raid a specific Roblox game? Let us know!</p>
+                <div class="search-container">
+                    <input type="text" class="search-input" id="game-search" placeholder="Search for a Roblox game...">
+                    <button class="suggest-button" onclick="submitSuggestion()">SUBMIT SUGGESTION</button>
+                    <p class="suggest-note">Your suggestion will be reviewed by leadership</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-logo">
+                        <img src="logo-transparent.png" alt="ORDA" class="footer-logo-img">
+                        <span class="logo-text">ORDER OF RUTHLESS DOMINION AND AUTHORITY</span>
+                    </div>
+                    <p class="footer-text">© 2026 Order of Ruthless Dominion and Authority. All rights reserved.</p>
+                </div>
+                <div class="footer-right">
+                    <p class="footer-social-label">FOLLOW US</p>
+                    <a href="https://www.youtube.com/@VisualLeak" target="_blank" class="social-link">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                        YOUTUBE
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function submitSuggestion() {
+            const input = document.getElementById('game-search');
+            const game = input.value.trim();
+            
+            if (game) {
+                alert('Thank you for suggesting: ' + game + '\n\nJoin our Discord to discuss it with leadership!');
+                input.value = '';
+            } else {
+                alert('Please enter a game name!');
+            }
+        }
+        
+        // Allow Enter key to submit
+        document.getElementById('game-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitSuggestion();
+            }
+        });
+    </script>
+</body>
+</html>
