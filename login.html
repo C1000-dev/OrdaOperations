@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - ORDA</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--black);
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: var(--dark-gray);
+            padding: 60px 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 450px;
+            width: 100%;
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .login-logo img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .login-title {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .login-subtitle {
+            text-align: center;
+            color: var(--gray);
+            font-size: 13px;
+            margin-bottom: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 13px;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background: var(--black);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+        }
+        
+        .form-input:focus {
+            border-color: var(--white);
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 18px;
+            background: var(--white);
+            color: var(--black);
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .login-button:hover {
+            background: var(--black);
+            color: var(--white);
+            outline: 2px solid var(--white);
+        }
+        
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        .forgot-password a {
+            color: var(--white);
+            text-decoration: none;
+        }
+        
+        .error-message {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            color: #ff5555;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .back-home {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .back-home a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-logo">
+                <img src="logo-transparent.png" alt="ORDA">
+                <h1 class="login-title">SIGN IN</h1>
+                <p class="login-subtitle">ORDA Members Only</p>
+            </div>
+            
+            <div class="error-message" id="error-message"></div>
+            
+            <form onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">USERNAME</label>
+                    <input type="text" class="form-input" id="username" required autocomplete="username">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">PASSWORD</label>
+                    <input type="password" class="form-input" id="password" required autocomplete="current-password">
+                </div>
+                
+                <button type="submit" class="login-button">LOGIN</button>
+            </form>
+            
+            <div class="forgot-password">
+                Forgot password? <a href="https://discord.gg/hePEwEnukn" target="_blank">Create a ticket in ORDA's Discord</a>
+            </div>
+            
+            <div class="back-home">
+                <a href="index.html">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="analytics.js"></script>
+    <script>
+        // Track page view
+        trackPageView('login');
+        
+        // Check if already logged in
+        if (localStorage.getItem('orda_current_user')) {
+            window.location.href = 'profile.html?user=' + localStorage.getItem('orda_current_user');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('error-message');
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('orda_users') || '{}');
+            
+            // Check if user exists
+            if (!users[username]) {
+                errorMsg.textContent = '❌ Account not found. Only ORDA members can login. Contact leadership to get an account.';
+                errorMsg.style.display = 'block';
+                return false;
+            }
+            
+            // Check password
+            if (users[username].password !== password) {
+                errorMsg.textContent = '❌ Incorrect password. Use "Forgot password?" to reset.';
+                errorMsg.style.display = 'block';
+                return false;
+            }
+            
+            // Login successful
+            localStorage.setItem('orda_current_user', username);
+            
+            // Redirect to profile
+            window.location.href = 'profile.html?user=' + username;
+            return false;
+        }
+    </script>
+</body>
+</html>
