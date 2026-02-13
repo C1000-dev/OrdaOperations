@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORDA Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body{background:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+        .admin-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+        .admin-login-box{background:#1a1a1a;padding:60px 50px;border:2px solid #333;max-width:450px;width:100%;box-shadow:0 10px 50px rgba(0,0,0,0.5)}
+        .admin-logo{text-align:center;margin-bottom:40px}
+        .admin-logo img{width:80px;height:80px;margin-bottom:20px}
+        .admin-logo h1{font-size:32px;font-weight:900;letter-spacing:3px;margin-bottom:10px}
+        .admin-logo p{color:#888;font-size:14px;letter-spacing:1px}
+        .admin-panel{display:none;min-height:100vh;padding-top:90px}
+        .admin-panel.active{display:block}
+        .admin-header{background:#1a1a1a;padding:25px 40px;border-bottom:3px solid #333;position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;box-shadow:0 5px 20px rgba(0,0,0,0.3)}
+        .admin-title{font-size:28px;font-weight:900;letter-spacing:2px;display:flex;align-items:center;gap:15px}
+        .logout-btn{background:#ff0000;color:#fff;padding:12px 28px;border:none;cursor:pointer;font-weight:700;letter-spacing:1px;transition:all 0.3s;font-size:14px}
+        .logout-btn:hover{background:#000;outline:2px solid #ff0000}
+        .admin-container{max-width:1600px;margin:0 auto;padding:40px 30px}
+        .admin-tabs{display:flex;gap:10px;margin-bottom:50px;flex-wrap:wrap;justify-content:center;background:#1a1a1a;padding:20px;border-radius:8px}
+        .admin-tab{background:#0a0a0a;padding:15px 30px;border:2px solid #333;cursor:pointer;font-weight:700;font-size:14px;letter-spacing:1.5px;transition:all 0.3s;border-radius:4px}
+        .admin-tab:hover{border-color:#666}
+        .admin-tab.active{border-color:#fff;background:#fff;color:#000}
+        .admin-content{background:#1a1a1a;padding:50px;border:2px solid #333;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+        .content-title{font-size:32px;font-weight:900;margin-bottom:40px;letter-spacing:2px;padding-bottom:20px;border-bottom:2px solid #333}
+        .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;margin-bottom:30px}
+        .form-group{margin-bottom:25px}
+        .form-label{display:block;margin-bottom:10px;font-weight:700;font-size:13px;letter-spacing:1.5px;color:#ccc}
+        .form-input,.form-select{width:100%;padding:15px;background:#0a0a0a;border:2px solid #333;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:border 0.3s}
+        .form-input:focus,.form-select:focus{border-color:#fff}
+        .btn{background:#fff;color:#000;padding:15px 35px;border:none;cursor:pointer;font-weight:700;letter-spacing:1.5px;transition:all 0.3s;font-size:14px;border-radius:4px}
+        .btn:hover{background:#000;color:#fff;outline:2px solid #fff}
+        .btn-danger{background:#ff0000;color:#fff}
+        .btn-danger:hover{background:#000;outline:2px solid #ff0000}
+        .btn-success{background:#00ff00;color:#000}
+        .btn-success:hover{background:#000;color:#00ff00;outline:2px solid #00ff00}
+        .user-card{background:#0a0a0a;padding:30px;margin-bottom:20px;border:2px solid #333;border-radius:8px;transition:all 0.3s}
+        .user-card:hover{border-color:#666;transform:translateY(-3px)}
+        .user-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:15px}
+        .user-name{font-size:24px;font-weight:900;letter-spacing:1px}
+        .user-info{color:#888;font-size:14px;margin-top:8px}
+        .user-actions{display:flex;gap:10px;flex-wrap:wrap}
+        .badge-selector{display:flex;gap:15px;margin:25px 0;flex-wrap:wrap}
+        .badge-option{width:80px;height:80px;border:3px solid #333;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;background:#0a0a0a;border-radius:8px}
+        .badge-option:hover{border-color:#fff;transform:scale(1.05)}
+        .badge-option.selected{border-color:#fff;background:#fff;color:#000}
+        .badge-icon{font-size:36px;margin-bottom:5px}
+        .badge-name{font-size:11px;font-weight:700;letter-spacing:1px}
+        .verify-gold{color:#ffd700;filter:drop-shadow(0 0 8px #ffd700)}
+        .verify-red{color:#ff0000}
+        .verify-black{color:#fff}
+        .verify-blue{color:#00bfff;filter:drop-shadow(0 0 8px #00bfff)}
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;margin-bottom:40px}
+        .stat-card{background:#0a0a0a;padding:40px;border:2px solid #333;text-align:center;border-radius:8px;transition:all 0.3s}
+        .stat-card:hover{border-color:#666;transform:translateY(-3px)}
+        .stat-number{font-size:64px;font-weight:900;margin-bottom:15px;background:linear-gradient(135deg,#fff,#888);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .stat-label{font-size:14px;color:#888;letter-spacing:2px;font-weight:700}
+        .error-msg{background:rgba(255,0,0,0.1);border:2px solid #ff0000;color:#ff5555;padding:15px;margin-bottom:25px;font-size:14px;border-radius:4px;display:none}
+        @media (max-width:768px){
+            .admin-tabs{flex-direction:column}
+            .admin-tab{width:100%}
+            .user-header{flex-direction:column;align-items:flex-start}
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="admin-login" id="admin-login">
+        <div class="admin-login-box">
+            <div class="admin-logo">
+                <img src="logo-transparent.png" alt="ORDA">
+                <h1>ADMIN PANEL</h1>
+                <p>ORDA SUPREME CONTROL</p>
+            </div>
+            <div class="error-msg" id="login-error"></div>
+            <div class="form-group">
+                <label class="form-label">USERNAME</label>
+                <input type="text" class="form-input" id="admin-username" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label class="form-label">PASSWORD</label>
+                <input type="password" class="form-input" id="admin-password" autocomplete="current-password">
+            </div>
+            <button class="btn" style="width:100%;margin-top:15px" onclick="adminLogin()">ACCESS PANEL</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="admin-panel">
+        <div class="admin-header">
+            <div class="admin-title">⚙️ ORDA SUPREME ADMIN</div>
+            <button class="logout-btn" onclick="adminLogout()">LOGOUT</button>
+        </div>
+
+        <div class="admin-container">
+            <div class="admin-tabs">
+                <div class="admin-tab active" onclick="switchTab('stats')">📊 DASHBOARD</div>
+                <div class="admin-tab" onclick="switchTab('users')">👥 MANAGE USERS</div>
+                <div class="admin-tab" onclick="switchTab('ratings')">⭐ RATINGS</div>
+                <div class="admin-tab" onclick="switchTab('shame')">🔥 HALL OF SHAME</div>
+                <div class="admin-tab" onclick="switchTab('analytics')">📈 ANALYTICS</div>
+            </div>
+
+            <!-- Stats Tab -->
+            <div class="admin-content" id="tab-stats">
+                <h2 class="content-title">DASHBOARD</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-users">0</div>
+                        <div class="stat-label">TOTAL USERS</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-ratings">0</div>
+                        <div class="stat-label">TOTAL RATINGS</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-shame">0</div>
+                        <div class="stat-label">SHAME POSTS</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-pending">0</div>
+                        <div class="stat-label">PENDING APPROVAL</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Tab -->
+            <div class="admin-content" id="tab-users" style="display:none">
+                <h2 class="content-title">CREATE NEW USER</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">USERNAME</label>
+                        <input type="text" class="form-input" id="new-username" placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">PASSWORD</label>
+                        <input type="password" class="form-input" id="new-password" placeholder="Enter password">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">RANK (1-15)</label>
+                        <select class="form-select" id="new-rank">
+                            <option value="1">Level 1 - Private</option>
+                            <option value="2">Level 2 - Specialist</option>
+                            <option value="3">Level 3 - Corporal</option>
+                            <option value="4">Level 4 - Sergeant</option>
+                            <option value="5">Level 5 - Captain</option>
+                            <option value="6">Level 6 - Ensign</option>
+                            <option value="7">Level 7 - Loyal Soldier</option>
+                            <option value="8">Level 8 - Major</option>
+                            <option value="9">Level 9 - Lieutenant</option>
+                            <option value="10">Level 10 - Colonel</option>
+                            <option value="11">Level 11 - General</option>
+                            <option value="12">Level 12 - General of Army</option>
+                            <option value="13">Level 13 - Admiral</option>
+                            <option value="14">Level 14 - Marshal</option>
+                            <option value="15">Level 15 - Commander</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="createUser()">CREATE USER</button>
+                
+                <h2 class="content-title" style="margin-top:60px">ALL USERS</h2>
+                <div id="user-list"></div>
+            </div>
+
+            <!-- Ratings Tab -->
+            <div class="admin-content" id="tab-ratings" style="display:none">
+                <h2 class="content-title">PENDING RATINGS</h2>
+                <div id="pending-ratings"></div>
+                <h2 class="content-title" style="margin-top:60px">APPROVED RATINGS</h2>
+                <div id="approved-ratings"></div>
+            </div>
+
+            <!-- Hall of Shame Tab -->
+            <div class="admin-content" id="tab-shame" style="display:none">
+                <h2 class="content-title">HALL OF SHAME MANAGER</h2>
+                <button class="btn" onclick="setShameMusic()" style="margin-bottom:30px">🎵 SET BACKGROUND MUSIC</button>
+                <div class="form-group">
+                    <label class="form-label">POST TYPE</label>
+                    <select class="form-select" id="shame-type">
+                        <option value="text">Text Post</option>
+                        <option value="image">Image Upload</option>
+                        <option value="video">Video Upload</option>
+                    </select>
+                </div>
+                <div id="shame-content-area"></div>
+                <button class="btn btn-success" onclick="createShamePost()">POST TO HALL OF SHAME</button>
+                
+                <h2 class="content-title" style="margin-top:60px">ALL POSTS</h2>
+                <div id="shame-list"></div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div class="admin-content" id="tab-analytics" style="display:none">
+                <h2 class="content-title">PAGE ANALYTICS</h2>
+                <div id="analytics-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="analytics.js"></script>
+    <script src="file-upload.js"></script>
+    <script>
+        const ADMIN_USER='orda_supreme_admin';
+        const ADMIN_PASS='ORDA#2026!Dominion@Secure';
+        
+        function adminLogin(){
+            const user=document.getElementById('admin-username').value;
+            const pass=document.getElementById('admin-password').value;
+            const error=document.getElementById('login-error');
+            
+            if(user===ADMIN_USER&&pass===ADMIN_PASS){
+                localStorage.setItem('orda_admin_session','true');
+                document.getElementById('admin-login').style.display='none';
+                document.getElementById('admin-panel').classList.add('active');
+                loadStats();
+                loadUsers();
+            }else{
+                error.textContent='❌ Invalid credentials';
+                error.style.display='block';
+            }
+        }
+        
+        function adminLogout(){
+            localStorage.removeItem('orda_admin_session');
+            location.reload();
+        }
+        
+        if(localStorage.getItem('orda_admin_session')){
+            document.getElementById('admin-login').style.display='none';
+            document.getElementById('admin-panel').classList.add('active');
+            loadStats();
+            loadUsers();
+        }
+        
+        function switchTab(tab){
+            document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+            document.querySelectorAll('.admin-content').forEach(c=>c.style.display='none');
+            event.target.classList.add('active');
+            document.getElementById('tab-'+tab).style.display='block';
+            
+            if(tab==='stats')loadStats();
+            if(tab==='users')loadUsers();
+            if(tab==='ratings')loadRatings();
+            if(tab==='shame')loadShame();
+            if(tab==='analytics')loadAnalytics();
+        }
+        
+        function loadStats(){
+            const users=JSON.parse(localStorage.getItem('orda_users')||'{}');
+            const ratings=JSON.parse(localStorage.getItem('orda_ratings')||'[]');
+            const shame=JSON.parse(localStorage.getItem('orda_shame_posts')||'[]');
+            
+            document.getElementById('stat-users').textContent=Object.keys(users).length;
+            document.getElementById('stat-ratings').textContent=ratings.length;
+            document.getElementById('stat-shame').textContent=shame.length;
+            document.getElementById('stat-pending').textContent=ratings.filter(r=>r.status==='pending').length;
+        }
+        
+        let selectedBadge='black';
+        let selectedUser='';
+        
+        function showBadgeSelector(username){
+            selectedUser=username;
+            const users=JSON.parse(localStorage.getItem('orda_users')||'{}');
+            const currentBadge=users[username].badge||'black';
+            selectedBadge=currentBadge;
+            
+            const modal=document.createElement('div');
+            modal.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:10000';
+            modal.innerHTML=`
+                <div style="background:#1a1a1a;padding:50px;border:2px solid #333;max-width:600px;width:90%;border-radius:8px">
+                    <h2 style="font-size:28px;font-weight:900;margin-bottom:30px;text-align:center">SELECT VERIFICATION BADGE</h2>
+                    <div class="badge-selector" style="justify-content:center">
+                        <div class="badge-option ${currentBadge==='gold'?'selected':''}" onclick="selectBadge('gold',this)">
+                            <div class="badge-icon verify-gold">✓</div>
+                            <div class="badge-name">GOLD</div>
+                        </div>
+                        <div class="badge-option ${currentBadge==='red'?'selected':''}" onclick="selectBadge('red',this)">
+                            <div class="badge-icon verify-red">✓</div>
+                            <div class="badge-name">RED</div>
+                        </div>
+                        <div class="badge-option ${currentBadge==='blue'?'selected':''}" onclick="selectBadge('blue',this)">
+                            <div class="badge-icon verify-blue">✓</div>
+                            <div class="badge-name">BLUE</div>
+                        </div>
+                        <div class="badge-option ${currentBadge==='black'?'selected':''}" onclick="selectBadge('black',this)">
+                            <div class="badge-icon verify-black">✓</div>
+                            <div class="badge-name">BLACK</div>
+                        </div>
+                        <div class="badge-option ${currentBadge==='none'?'selected':''}" onclick="selectBadge('none',this)">
+                            <div class="badge-icon">✗</div>
+                            <div class="badge-name">NONE</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:15px;margin-top:30px">
+                        <button class="btn btn-success" style="flex:1" onclick="saveBadge()">SAVE BADGE</button>
+                        <button class="btn btn-danger" style="flex:1" onclick="closeModal()">CANCEL</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            window.currentModal=modal;
+        }
+        
+        window.selectBadge=function(badge,el){
+            selectedBadge=badge;
+            document.querySelectorAll('.badge-option').forEach(o=>o.classList.remove('selected'));
+            el.classList.add('selected');
+        };
+        
+        window.saveBadge=function(){
+            const users=JSON.parse(localStorage.getItem('orda_users')||'{}');
+            users[selectedUser].badge=selectedBadge;
+            localStorage.setItem('orda_users',JSON.stringify(users));
+            closeModal();
+            alert('✅ Badge updated!');
+            loadUsers();
+        };
+        
+        window.closeModal=function(){
+            if(window.currentModal){
+                document.body.removeChild(window.currentModal);
+                window.currentModal=null;
+            }
+        };
+        
+        function createUser(){
+            const username=document.getElementById('new-username').value.trim();
+            const password=document.getElementById('new-password').value;
+            const rank=document.getElementById('new-rank').value;
+            
+            if(!username||!password){
+                alert('Please fill all fields!');
+                return;
+            }
+            
+            const users=JSON.parse(localStorage.getItem('orda_users')||'{}');
+            
+            if(users[username]){
+                alert('User already exists!');
+                return;
+            }
+            
+            users[username]={
+                password:password,
+                rank:parseInt(rank),
+                badge:'black',
+                bio:'',
+                avatar:'',
+                music:'',
+                social:{},
+                followers:[],
+                following:[],
+                createdAt:new Date().toISOString()
+            };
+            
+            localStorage.setItem('orda_users',JSON.stringify(users));
+            
+            alert('✅ User created: '+username);
+            document.getElementById('new-username').value='';
+            document.getElementById('new-password').value='';
+            
+            loadUsers();
+            loadStats();
+        }
+        
+        function loadUsers(){
+            const users=JSON.parse(localStorage.getItem('orda_users')||'{}');
+            const list=document.getElementById('user-list');
+            const rankNames=['','Private','Specialist','Corporal','Sergeant','Captain','Ensign','Loyal Soldier','Major','Lieutenant','Colonel','General','General of Army','Admiral','Marshal','Commander'];
+            
+            list.innerHTML='';
+            
+            for(const username in users){
+                const user=users[username];
+                const badges={'gold':'🟡','red':'🔴','blue':'🔵','black':'⚫','none':'✗'};
+                
+                list.innerHTML+=`
+                    <div class="user-card">
+                        <div class="user-header">
+                            <div>
+                                <div class="user-name">${username} ${badges[user.badge||'black']}</div>
+                                <div class="user-info">Level ${user.rank} - ${rankNames[user.rank]} | Badge: ${user.badge||'black'}</div>
+                            </div>
+                            <div class="user-actions">
+                                <button class="btn" onclick="showBadgeSelector('${username}')">🏅 BADGE</button>
+                                <button class="btn" onclick="editUserRank('${username}')">📊 RANK</button>
+                                <button class="btn" onclick="viewUserProfile('${username}')">👁️ PROFILE</button>
+                                <button class="btn btn-danger" onclick="deleteUser('${username}')">🗑️ DELETE</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        function editUserRank(username){
+            const users=JSON.parse(localStorage.getItem('orda_users')||'{}');
+            const newRank=prompt('Enter new rank (1-15):',users[username].rank);
+            if(newRank&&parseInt(newRank)>=1&&parseInt(newRank)<=15){
+                users[username].rank=parseInt(newRank);
+                localStorage.setItem('orda_users',JSON.stringify(users));
+                alert('✅ Rank updated!');
+                loadUsers();
+            }
+        }
+        
+        function viewUserProfile(username){
+            window.open('profile-FIXED.html?user='+username,'_blank');
+        }
+        
+        function deleteUser(username){
+            if(!confirm('Delete user '+username+'?'))return;
+            const users=JSON.parse(localStorage.getItem('orda_users')||'{}');
+            delete users[username];
+            localStorage.setItem('orda_users',JSON.stringify(users));
+            alert('✅ User deleted!');
+            loadUsers();
+            loadStats();
+        }
+        
+        function loadRatings(){
+            const ratings=JSON.parse(localStorage.getItem('orda_ratings')||'[]');
+            const pending=ratings.filter(r=>r.status==='pending');
+            const approved=ratings.filter(r=>r.status==='approved');
+            
+            document.getElementById('pending-ratings').innerHTML=pending.length===0?'<p style="color:#888;text-align:center;padding:40px">No pending ratings</p>':pending.map((r,i)=>`
+                <div class="user-card">
+                    <div class="user-header">
+                        <div>
+                            <div class="user-name">⭐ ${r.rating}/5 - ${r.username}</div>
+                            <div class="user-info">${r.comment}</div>
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-success" onclick="approveRating(${ratings.indexOf(r)})">APPROVE</button>
+                            <button class="btn btn-danger" onclick="deleteRating(${ratings.indexOf(r)})">REJECT</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('approved-ratings').innerHTML=approved.length===0?'<p style="color:#888;text-align:center;padding:40px">No approved ratings</p>':approved.map((r,i)=>`
+                <div class="user-card">
+                    <div class="user-header">
+                        <div>
+                            <div class="user-name">⭐ ${r.rating}/5 - ${r.username}</div>
+                            <div class="user-info">${r.comment} | Likes: ${r.likes||0}</div>
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-danger" onclick="deleteRating(${ratings.indexOf(r)})">DELETE</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function approveRating(index){
+            const ratings=JSON.parse(localStorage.getItem('orda_ratings')||'[]');
+            ratings[index].status='approved';
+            localStorage.setItem('orda_ratings',JSON.stringify(ratings));
+            alert('✅ Rating approved!');
+            loadRatings();
+            loadStats();
+        }
+        
+        function deleteRating(index){
+            const ratings=JSON.parse(localStorage.getItem('orda_ratings')||'[]');
+            ratings.splice(index,1);
+            localStorage.setItem('orda_ratings',JSON.stringify(ratings));
+            alert('✅ Rating deleted!');
+            loadRatings();
+            loadStats();
+        }
+        
+        let shameFileData='';
+        
+        function loadShame(){
+            const type=document.getElementById('shame-type').value;
+            const area=document.getElementById('shame-content-area');
+            
+            if(type==='text'){
+                area.innerHTML='<div class="form-group"><label class="form-label">TEXT CONTENT</label><textarea class="form-input" id="shame-text" rows="5" placeholder="Enter text content..."></textarea></div>';
+            }else if(type==='image'){
+                area.innerHTML='<div id="shame-image-upload"></div>';
+                setTimeout(()=>{
+                    createFileDropzone('shame-image-upload','image/*',function(base64){
+                        shameFileData=base64;
+                    });
+                },100);
+            }else if(type==='video'){
+                area.innerHTML='<div id="shame-video-upload"></div>';
+                setTimeout(()=>{
+                    createFileDropzone('shame-video-upload','video/*',function(base64){
+                        shameFileData=base64;
+                    });
+                },100);
+            }
+            
+            const posts=JSON.parse(localStorage.getItem('orda_shame_posts')||'[]');
+            document.getElementById('shame-list').innerHTML=posts.length===0?'<p style="color:#888;text-align:center;padding:40px">No posts yet</p>':posts.map((p,i)=>`
+                <div class="user-card">
+                    <div class="user-header">
+                        <div>
+                            <div class="user-name">${p.type.toUpperCase()} POST</div>
+                            <div class="user-info">${new Date(p.timestamp).toLocaleString()}</div>
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-danger" onclick="deleteShamePost(${i})">DELETE</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        document.getElementById('shame-type').addEventListener('change',loadShame);
+        
+        function createShamePost(){
+            const type=document.getElementById('shame-type').value;
+            let content='';
+            
+            if(type==='text'){
+                content=document.getElementById('shame-text').value.trim();
+                if(!content){
+                    alert('Please enter text content!');
+                    return;
+                }
+            }else{
+                content=shameFileData;
+                if(!content){
+                    alert('Please upload a file!');
+                    return;
+                }
+            }
+            
+            const posts=JSON.parse(localStorage.getItem('orda_shame_posts')||'[]');
+            posts.push({
+                type:type,
+                content:content,
+                timestamp:new Date().toISOString()
+            });
+            
+            localStorage.setItem('orda_shame_posts',JSON.stringify(posts));
+            
+            alert('✅ Post created!');
+            shameFileData='';
+            loadShame();
+            loadStats();
+        }
+        
+        function deleteShamePost(index){
+            const posts=JSON.parse(localStorage.getItem('orda_shame_posts')||'[]');
+            posts.splice(index,1);
+            localStorage.setItem('orda_shame_posts',JSON.stringify(posts));
+            alert('✅ Post deleted!');
+            loadShame();
+            loadStats();
+        }
+        
+        function setShameMusic(){
+            const area=document.createElement('div');
+            area.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:10000';
+            area.innerHTML=`
+                <div style="background:#1a1a1a;padding:50px;border:2px solid #333;max-width:600px;width:90%;border-radius:8px">
+                    <h2 style="font-size:28px;font-weight:900;margin-bottom:30px;text-align:center">UPLOAD BACKGROUND MUSIC</h2>
+                    <div id="shame-music-upload"></div>
+                    <div style="display:flex;gap:15px;margin-top:30px">
+                        <button class="btn btn-success" style="flex:1" onclick="saveShameMusic()">SAVE</button>
+                        <button class="btn btn-danger" style="flex:1" onclick="closeModal()">CANCEL</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(area);
+            window.currentModal=area;
+            
+            setTimeout(()=>{
+                createFileDropzone('shame-music-upload','audio/*',function(base64){
+                    window.shameMusicData=base64;
+                });
+            },100);
+        }
+        
+        window.saveShameMusic=function(){
+            if(window.shameMusicData){
+                localStorage.setItem('orda_shame_music',window.shameMusicData);
+                alert('✅ Background music saved!');
+                closeModal();
+            }else{
+                alert('Please upload a music file!');
+            }
+        };
+        
+        function loadAnalytics(){
+            const allViews=getAllPageViews('allTime');
+            const periods=['12h','24h','7days','30days','1year','allTime'];
+            
+            let html='<div class="stats-grid">';
+            
+            for(const page in allViews){
+                html+=`<div class="stat-card"><div class="stat-label" style="margin-bottom:20px;font-size:16px">${page.toUpperCase()}</div>`;
+                
+                periods.forEach(period=>{
+                    const count=getPageViews(page,period);
+                    html+=`<div style="margin:8px 0;font-size:14px;display:flex;justify-content:space-between"><span style="color:#888">${period}:</span><span style="font-weight:700">${count}</span></div>`;
+                });
+                
+                html+='</div>';
+            }
+            
+            html+='</div>';
+            document.getElementById('analytics-content').innerHTML=html;
+        }
+    </script>
+</body>
+</html>
