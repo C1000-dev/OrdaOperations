@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ratings - ORDA</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ratings-hero{min-height:40vh;display:flex;align-items:center;justify-content:center;background:#000;padding-top:120px}
+        .ratings-container{padding:80px 0;background:#000}
+        .rating-submit{background:#1a1a1a;padding:50px;border:2px solid rgba(255,255,255,0.1);max-width:800px;margin:0 auto 60px}
+        .star-rating{display:flex;gap:15px;justify-content:center;margin:30px 0;font-size:48px}
+        .star{cursor:pointer;color:#333;transition:all 0.3s}
+        .star:hover,.star.active{color:#ffd700}
+        .rating-comment{width:100%;padding:20px;background:#000;border:2px solid rgba(255,255,255,0.2);color:#fff;font-size:16px;font-family:inherit;min-height:150px;resize:vertical;outline:none;margin:20px 0}
+        .rating-comment:focus{border-color:#fff}
+        .submit-rating-btn{width:100%;padding:20px;background:#fff;color:#000;border:none;font-size:16px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all 0.3s}
+        .submit-rating-btn:hover{background:#000;color:#fff;outline:2px solid #fff}
+        .submit-rating-btn:disabled{background:#333;color:#666;cursor:not-allowed;outline:none}
+        .guest-notice{background:rgba(255,255,255,0.05);padding:40px;text-align:center;border:2px solid rgba(255,255,255,0.1)}
+        .guest-notice h3{font-size:24px;font-weight:900;margin-bottom:15px;letter-spacing:2px}
+        .ratings-list{max-width:1000px;margin:0 auto}
+        .rating-card{background:#1a1a1a;padding:40px;margin-bottom:25px;border:2px solid rgba(255,255,255,0.1);transition:all 0.3s}
+        .rating-card:hover{border-color:rgba(255,255,255,0.3)}
+        .rating-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:15px}
+        .rating-user{font-size:20px;font-weight:900;letter-spacing:1px;display:flex;align-items:center;gap:10px}
+        .rating-stars{color:#ffd700;font-size:24px}
+        .rating-text{color:#c0c0c0;line-height:1.8;margin-bottom:20px;font-size:16px}
+        .rating-footer{display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1)}
+        .rating-date{font-size:13px;color:#666}
+        .like-btn{background:none;border:none;color:#888;cursor:pointer;font-size:18px;transition:all 0.3s;display:flex;align-items:center;gap:8px;padding:8px 15px;border-radius:4px}
+        .like-btn:hover{background:rgba(255,255,255,0.05);color:#ffd700}
+        .like-btn.liked{color:#ffd700}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="logo-transparent.png" alt="ORDA" class="nav-logo-img">
+                <span class="logo-text">ORDER OF RUTHLESS DOMINION AND AUTHORITY</span>
+            </div>
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index-UPDATED.html#about">ABOUT</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">FEATURES ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="games-UPDATED.html">GAMES</a></li>
+                        <li><a href="ranks-UPDATED.html">RANKS</a></li>
+                        <li><a href="ratings-UPDATED.html">RATINGS</a></li>
+                    </ul>
+                </li>
+                <li><a href="hall-of-shame-COMPLETE.html" class="nav-rainbow">HALL OF SHAME</a></li>
+                <li class="dropdown members-only">
+                    <a href="#" class="dropdown-toggle">COMMUNICATIONS ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="members-FIXED.html">🔍 Search Members</a></li>
+                        <li><a href="chats-UPDATED.html">💬 Chats</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="login-UPDATED.html" class="nav-signin">SIGN IN</a>
+                <a href="https://discord.gg/hePEwEnukn" target="_blank" class="nav-button">JOIN SERVER</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="ratings-hero">
+        <div class="container">
+            <p class="section-label" style="text-align:center">COMMUNITY FEEDBACK</p>
+            <h1 class="section-title-center" style="margin-bottom:20px">RATE ORDA</h1>
+        </div>
+    </section>
+
+    <section class="ratings-container">
+        <div class="container">
+            <div class="rating-submit" id="rating-submit-section"></div>
+            
+            <h2 style="font-size:32px;font-weight:900;text-align:center;margin-bottom:50px;letter-spacing:3px">MEMBER REVIEWS</h2>
+            <div class="ratings-list" id="ratings-list"></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-logo">
+                        <img src="logo-transparent.png" alt="ORDA" class="footer-logo-img">
+                        <span class="logo-text">ORDER OF RUTHLESS DOMINION AND AUTHORITY</span>
+                    </div>
+                    <p class="footer-text">© 2026 Order of Ruthless Dominion and Authority. All rights reserved.</p>
+                </div>
+                <div class="footer-right">
+                    <p class="footer-social-label">FOLLOW US</p>
+                    <a href="https://www.youtube.com/@VisualLeak" target="_blank" class="social-link">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                        YOUTUBE
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="analytics.js"></script>
+    <script src="auth-system.js"></script>
+    <script src="live-viewers.js"></script>
+    <script>
+        trackPageView('ratings');
+        
+        const mobileMenuToggle=document.getElementById('mobile-menu-toggle');
+        const navMenu=document.getElementById('nav-menu');
+        if(mobileMenuToggle){
+            mobileMenuToggle.addEventListener('click',function(){
+                this.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        const currentUser=ORDAAuth.getCurrentUser();
+        let selectedStars=0;
+
+        // Load submit section
+        const submitSection=document.getElementById('rating-submit-section');
+        
+        if(currentUser){
+            submitSection.innerHTML=`
+                <h2 style="font-size:28px;font-weight:900;text-align:center;margin-bottom:30px;letter-spacing:2px">SUBMIT YOUR RATING</h2>
+                <div class="star-rating" id="star-rating">
+                    <span class="star" onclick="setRating(1)">★</span>
+                    <span class="star" onclick="setRating(2)">★</span>
+                    <span class="star" onclick="setRating(3)">★</span>
+                    <span class="star" onclick="setRating(4)">★</span>
+                    <span class="star" onclick="setRating(5)">★</span>
+                </div>
+                <textarea class="rating-comment" id="rating-comment" placeholder="Share your experience with ORDA..."></textarea>
+                <button class="submit-rating-btn" onclick="submitRating()">SUBMIT RATING</button>
+            `;
+        }else{
+            submitSection.innerHTML=`
+                <div class="guest-notice">
+                    <div style="font-size:64px;margin-bottom:20px">🔒</div>
+                    <h3>WANT TO RATE ORDA?</h3>
+                    <p style="color:#c0c0c0;margin:20px 0;font-size:16px">
+                        You must be an ORDA member to submit a rating. Members have the knowledge and experience to provide valuable feedback.
+                    </p>
+                    <a href="login-UPDATED.html" class="btn-primary" style="display:inline-flex;margin-top:10px">SIGN IN TO RATE</a>
+                </div>
+            `;
+        }
+
+        function setRating(stars){
+            selectedStars=stars;
+            document.querySelectorAll('.star').forEach((star,index)=>{
+                if(index<stars){
+                    star.classList.add('active');
+                }else{
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function submitRating(){
+            if(!currentUser)return;
+            
+            if(selectedStars===0){
+                alert('Please select a star rating!');
+                return;
+            }
+            
+            const comment=document.getElementById('rating-comment').value.trim();
+            if(!comment){
+                alert('Please write a comment!');
+                return;
+            }
+            
+            let ratings=JSON.parse(localStorage.getItem('orda_ratings')||'[]');
+            
+            ratings.push({
+                username:currentUser,
+                rating:selectedStars,
+                comment:comment,
+                timestamp:new Date().toISOString(),
+                status:'pending',
+                likes:0,
+                likedBy:[]
+            });
+            
+            localStorage.setItem('orda_ratings',JSON.stringify(ratings));
+            
+            alert('✅ Rating submitted!\n\nYour rating will be reviewed by ORDA leadership before being published.');
+            
+            document.getElementById('rating-comment').value='';
+            setRating(0);
+        }
+
+        // Load approved ratings
+        function loadRatings(){
+            const ratings=JSON.parse(localStorage.getItem('orda_ratings')||'[]');
+            const approved=ratings.filter(r=>r.status==='approved');
+            const list=document.getElementById('ratings-list');
+            
+            if(approved.length===0){
+                list.innerHTML='<p style="text-align:center;color:#888;padding:60px 20px;font-size:18px">No ratings yet. Be the first to rate!</p>';
+                return;
+            }
+            
+            // Get guest ID
+            let guestId=localStorage.getItem('orda_guest_id');
+            if(!guestId){
+                guestId='guest_'+Math.random().toString(36).substr(2,9);
+                localStorage.setItem('orda_guest_id',guestId);
+            }
+            
+            const userId=currentUser||guestId;
+            
+            list.innerHTML=approved.map((r,index)=>{
+                const stars='★'.repeat(r.rating)+'☆'.repeat(5-r.rating);
+                const liked=r.likedBy?.includes(userId);
+                
+                return `
+                    <div class="rating-card">
+                        <div class="rating-header">
+                            <div class="rating-user">${r.username}</div>
+                            <div class="rating-stars">${stars}</div>
+                        </div>
+                        <div class="rating-text">${r.comment}</div>
+                        <div class="rating-footer">
+                            <div class="rating-date">${new Date(r.timestamp).toLocaleDateString()}</div>
+                            <button class="like-btn ${liked?'liked':''}" onclick="likeRating(${ratings.indexOf(r)})">
+                                <span>⭐</span>
+                                <span>${r.likes||0}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function likeRating(index){
+            const ratings=JSON.parse(localStorage.getItem('orda_ratings')||'[]');
+            
+            let guestId=localStorage.getItem('orda_guest_id');
+            if(!guestId){
+                guestId='guest_'+Math.random().toString(36).substr(2,9);
+                localStorage.setItem('orda_guest_id',guestId);
+            }
+            
+            const userId=currentUser||guestId;
+            
+            if(!ratings[index].likedBy){
+                ratings[index].likedBy=[];
+            }
+            
+            if(ratings[index].likedBy.includes(userId)){
+                ratings[index].likedBy=ratings[index].likedBy.filter(id=>id!==userId);
+                ratings[index].likes=(ratings[index].likes||1)-1;
+            }else{
+                ratings[index].likedBy.push(userId);
+                ratings[index].likes=(ratings[index].likes||0)+1;
+            }
+            
+            localStorage.setItem('orda_ratings',JSON.stringify(ratings));
+            loadRatings();
+        }
+
+        loadRatings();
+    </script>
+</body>
+</html>

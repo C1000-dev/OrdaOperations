@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - ORDA</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .edit-page{padding:120px 20px 60px;background:#000;min-height:100vh}
+        .edit-container{max-width:800px;margin:0 auto;background:#1a1a1a;padding:50px;border:1px solid rgba(255,255,255,0.1)}
+        .edit-title{font-size:36px;font-weight:900;margin-bottom:40px;letter-spacing:2px;text-align:center}
+        .form-section{margin-bottom:40px}
+        .section-title{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.1)}
+        .form-group{margin-bottom:25px}
+        .form-label{display:block;font-size:13px;letter-spacing:1.5px;font-weight:700;margin-bottom:10px}
+        .form-input,.form-textarea,.form-select{width:100%;padding:15px;background:#000;border:2px solid rgba(255,255,255,0.2);color:#fff;font-size:15px;font-family:inherit;outline:none}
+        .form-input:focus,.form-textarea:focus,.form-select:focus{border-color:#fff}
+        .form-textarea{min-height:120px;resize:vertical}
+        .social-inputs{display:flex;gap:10px;margin-bottom:15px}
+        .social-select{width:150px}
+        .add-social-btn{background:#fff;color:#000;padding:12px 25px;border:none;font-weight:700;cursor:pointer;transition:all 0.3s;font-size:13px;letter-spacing:1px}
+        .add-social-btn:hover{background:#000;color:#fff;outline:2px solid #fff}
+        .social-item{background:rgba(255,255,255,0.05);padding:15px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;border-radius:4px}
+        .remove-social{background:#ff0000;color:#fff;padding:8px 15px;border:none;cursor:pointer;font-weight:700;font-size:12px;transition:all 0.3s}
+        .remove-social:hover{background:#000;outline:2px solid #ff0000}
+        .unavailable-section{background:rgba(255,255,255,0.05);padding:30px;border:2px solid #555;text-align:center;opacity:0.6}
+        .blue-verify-text{color:#00bfff;text-shadow:0 0 10px #00bfff;font-weight:900;letter-spacing:1px}
+        .save-btn{width:100%;padding:20px;background:#fff;color:#000;border:none;font-size:16px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all 0.3s;margin-top:20px}
+        .save-btn:hover{background:#000;color:#fff;outline:2px solid #fff}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="logo-transparent.png" alt="ORDA" class="nav-logo-img">
+                <span class="logo-text">ORDER OF RUTHLESS DOMINION AND AUTHORITY</span>
+            </div>
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html#about">ABOUT</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">FEATURES ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="games.html">GAMES</a></li>
+                        <li><a href="ranks.html">RANKS</a></li>
+                        <li><a href="ratings.html">RATINGS</a></li>
+                    </ul>
+                </li>
+                <li><a href="hall-of-shame.html" class="nav-rainbow">HALL OF SHAME</a></li>
+                <li class="dropdown members-only">
+                    <a href="#" class="dropdown-toggle">COMMUNICATIONS ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="members.html">🔍 Search Members</a></li>
+                        <li><a href="chats.html">💬 Chats</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="login.html" class="nav-signin">SIGN IN</a>
+                <a href="https://discord.gg/hePEwEnukn" target="_blank" class="nav-button">JOIN SERVER</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="edit-page">
+        <div class="container">
+            <div class="edit-container">
+                <h1 class="edit-title">EDIT PROFILE</h1>
+                
+                <!-- Profile Picture -->
+                <div class="form-section">
+                    <h2 class="section-title">PROFILE PICTURE</h2>
+                    <div id="avatar-upload"></div>
+                </div>
+                
+                <!-- Bio -->
+                <div class="form-section">
+                    <h2 class="section-title">BIO</h2>
+                    <div class="form-group">
+                        <label class="form-label">ABOUT YOU</label>
+                        <textarea class="form-textarea" id="bio" placeholder="Tell others about yourself..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="form-section">
+                    <h2 class="section-title">SOCIAL LINKS</h2>
+                    <div class="social-inputs">
+                        <select class="form-select social-select" id="social-platform">
+                            <option value="">Choose Platform</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="twitch">Twitch</option>
+                            <option value="discord">Discord</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="twitter">Twitter</option>
+                            <option value="tiktok">TikTok</option>
+                        </select>
+                        <input type="url" class="form-input" id="social-url" placeholder="https://...">
+                        <button class="add-social-btn" onclick="addSocialLink()">ADD</button>
+                    </div>
+                    <div id="social-list"></div>
+                </div>
+                
+                <!-- Background Music -->
+                <div class="form-section" id="music-section"></div>
+                
+                <button class="save-btn" onclick="saveProfile()">SAVE CHANGES</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="analytics.js"></script>
+    <script src="auth-system.js"></script>
+    <script src="file-upload.js"></script>
+    <script src="live-viewers.js"></script>
+    <script>
+        const currentUser=ORDAAuth.getCurrentUser();
+        if(!currentUser){window.location.href='login.html'}
+        
+        const users=JSON.parse(localStorage.getItem('orda_users')||'{}');
+        const user=users[currentUser];
+        
+        let avatarData=user.avatar||'';
+        let musicData=user.music||'';
+        let socialLinks=user.social||{};
+        
+        // Load bio
+        document.getElementById('bio').value=user.bio||'';
+        
+        // Avatar upload
+        createFileDropzone('avatar-upload','image/*',function(base64,type,name){
+            avatarData=base64;
+        });
+        
+        // Music section based on badge
+        const musicSection=document.getElementById('music-section');
+        const badge=user.badge||'black';
+        
+        if(badge==='blue'||badge==='red'||badge==='gold'){
+            musicSection.innerHTML=`
+                <h2 class="section-title">BACKGROUND MUSIC</h2>
+                <div id="music-upload"></div>
+            `;
+            createFileDropzone('music-upload','audio/*',function(base64,type,name){
+                musicData=base64;
+            });
+        }else{
+            musicSection.innerHTML=`
+                <h2 class="section-title">BACKGROUND MUSIC</h2>
+                <div class="unavailable-section">
+                    <div style="font-size:32px;margin-bottom:15px">🔒</div>
+                    <p style="font-size:16px;margin-bottom:15px">Purchase the <span class="blue-verify-text">✓ VERIFIED CHECKMARK</span> to unlock custom music!</p>
+                    <p style="font-size:14px;color:#888">Only 100R$ per month or Cryptocurrency</p>
+                    <p style="font-size:13px;margin-top:15px">Join <a href="https://discord.gg/hePEwEnukn" target="_blank" style="color:#00bfff">Discord</a> and create a ticket in #CreateAccounts<br>Choose "Purchase Blue Checkmark"</p>
+                </div>
+            `;
+        }
+        
+        // Load existing social links
+        function loadSocialLinks(){
+            const list=document.getElementById('social-list');
+            list.innerHTML='';
+            for(const platform in socialLinks){
+                if(socialLinks[platform]){
+                    list.innerHTML+=`
+                        <div class="social-item">
+                            <span>${platform}: ${socialLinks[platform]}</span>
+                            <button class="remove-social" onclick="removeSocialLink('${platform}')">REMOVE</button>
+                        </div>
+                    `;
+                }
+            }
+        }
+        
+        loadSocialLinks();
+        
+        function addSocialLink(){
+            const platform=document.getElementById('social-platform').value;
+            const url=document.getElementById('social-url').value.trim();
+            
+            if(!platform){
+                alert('Please select a platform');
+                return;
+            }
+            if(!url){
+                alert('Please enter a URL');
+                return;
+            }
+            if(!url.startsWith('http')){
+                alert('URL must start with http:// or https://');
+                return;
+            }
+            
+            socialLinks[platform]=url;
+            document.getElementById('social-platform').value='';
+            document.getElementById('social-url').value='';
+            loadSocialLinks();
+        }
+        
+        function removeSocialLink(platform){
+            delete socialLinks[platform];
+            loadSocialLinks();
+        }
+        
+        function saveProfile(){
+            users[currentUser].bio=document.getElementById('bio').value;
+            users[currentUser].avatar=avatarData;
+            users[currentUser].music=musicData;
+            users[currentUser].social=socialLinks;
+            
+            localStorage.setItem('orda_users',JSON.stringify(users));
+            
+            alert('✅ Profile updated successfully!');
+            window.location.href='profile.html?user='+currentUser;
+        }
+        
+        // Mobile menu
+        const mobileToggle=document.getElementById('mobile-menu-toggle');
+        const navMenu=document.getElementById('nav-menu');
+        if(mobileToggle){
+            mobileToggle.addEventListener('click',function(){
+                this.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>

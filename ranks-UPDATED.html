@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranks - ORDA</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .ranks-hero{min-height:40vh;display:flex;align-items:center;justify-content:center;background:#000;padding-top:120px}
+        .ranks-container{padding:80px 0;background:#000}
+        .rank-category{margin-bottom:80px}
+        .category-title{font-size:32px;font-weight:900;letter-spacing:3px;margin-bottom:40px;text-align:center;padding-bottom:20px;border-bottom:2px solid rgba(255,255,255,0.1)}
+        .rank-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:25px}
+        .rank-card{background:#1a1a1a;padding:30px;border:2px solid rgba(255,255,255,0.1);text-align:center;transition:all 0.3s}
+        .rank-card:hover{border-color:rgba(255,255,255,0.3);transform:translateY(-5px)}
+        .rank-level{font-size:48px;font-weight:900;margin-bottom:15px;color:#888}
+        .rank-name{font-size:20px;font-weight:900;letter-spacing:2px;margin-bottom:10px}
+        .rank-description{font-size:14px;color:#888;line-height:1.6}
+        .medal{color:#ffd700}
+        .medal-advanced{background:linear-gradient(135deg,#ffd700,#ff8c00);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .medal-legendary{background:linear-gradient(135deg,#ff0000,#ffd700,#ff0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:legendary 2s ease-in-out infinite}
+        @keyframes legendary{0%,100%{filter:drop-shadow(0 0 5px #ffd700)}50%{filter:drop-shadow(0 0 15px #ff0000)}}
+        @media (max-width:768px){.rank-grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="logo-transparent.png" alt="ORDA" class="nav-logo-img">
+                <span class="logo-text">ORDER OF RUTHLESS DOMINION AND AUTHORITY</span>
+            </div>
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index-UPDATED.html#about">ABOUT</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">FEATURES ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="games-UPDATED.html">GAMES</a></li>
+                        <li><a href="ranks-UPDATED.html">RANKS</a></li>
+                        <li><a href="ratings-UPDATED.html">RATINGS</a></li>
+                    </ul>
+                </li>
+                <li><a href="hall-of-shame-COMPLETE.html" class="nav-rainbow">HALL OF SHAME</a></li>
+                <li class="dropdown members-only">
+                    <a href="#" class="dropdown-toggle">COMMUNICATIONS ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="members-FIXED.html">🔍 Search Members</a></li>
+                        <li><a href="chats-UPDATED.html">💬 Chats</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="login-UPDATED.html" class="nav-signin">SIGN IN</a>
+                <a href="https://discord.gg/hePEwEnukn" target="_blank" class="nav-button">JOIN SERVER</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="ranks-hero">
+        <div class="container">
+            <p class="section-label" style="text-align:center">HIERARCHY</p>
+            <h1 class="section-title-center" style="margin-bottom:20px">ORDA RANKS</h1>
+            <p style="text-align:center;color:#888;max-width:600px;margin:0 auto">15 levels of power. Earn your position through dedication, raids, and dominance.</p>
+        </div>
+    </section>
+
+    <section class="ranks-container">
+        <div class="container">
+            <!-- Medal Ranks 1-7 -->
+            <div class="rank-category">
+                <h2 class="category-title medal">MEDAL RANKS (1-7)</h2>
+                <div class="rank-grid">
+                    <div class="rank-card">
+                        <div class="rank-level medal">1</div>
+                        <div class="rank-name">PRIVATE</div>
+                        <div class="rank-description">Entry rank. Prove your worth.</div>
+                    </div>
+                    <div class="rank-card">
+                        <div class="rank-level medal">2</div>
+                        <div class="rank-name">SPECIALIST</div>
+                        <div class="rank-description">Skilled member. Contribute to raids.</div>
+                    </div>
+                    <div class="rank-card">
+                        <div class="rank-level medal">3</div>
+                        <div class="rank-name">CORPORAL</div>
+                        <div class="rank-description">Experienced raider. Lead small groups.</div>
+                    </div>
+                    <div class="rank-card">
+                        <div class="rank-level medal">4</div>
+                        <div class="rank-name">SERGEANT</div>
+                        <div class="rank-description">Veteran member. Coordinate raids.</div>
+                    </div>
+                    <div class="rank-card">
+                        <div class="rank-level medal">5</div>
+                        <div class="rank-name">CAPTAIN</div>
+                        <div class="rank-description">Elite status. Command respect.</div>
+                    </div>
+                    <div class="rank-card">
+                        <div class="rank-level medal">6</div>
+                        <div class="rank-name">ENSIGN</div>
+                        <div class="rank-description">Distinguished raider. Strategic leader.</div>
+                    </div>
+                    <div class="rank-card">
+                        <div class="rank-level medal">7</div>
+                        <div class="rank-name">LOYAL SOLDIER</div>
+                        <div class="rank-description">Proven dedication. Trusted ally.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medal Advanced 8-10 -->
+            <div class="rank-category">
+                <h2 class="category-title medal-advanced">MEDAL ADVANCED (8-10)</h2>
+                <div class="rank-grid">
+                    <div class="rank-card">
+                        <div class="rank-level medal-advanced">8</div>
+                        <div class="rank-name">MAJOR</div>
+                        <div class="rank-description">Advanced leadership. Plan operations.</div>
+                    </div>
+                    <div class="rank-card">
+                        <div class="rank-level medal-advanced">9</div>
+                        <div class="rank-name">LIEUTENANT</div>
+                        <div class="rank-description">Second in command. Execute strategy.</div>
+                    </div>
+                    <div class="rank-card">
+                        <div class="rank-level medal-advanced">10</div>
+                        <div class="rank-name">COLONEL</div>
+                        <div class="rank-description">High command. Direct raids.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medal Legendary 11-15 -->
+            <div class="rank-category">
+                <h2 class="category-title medal-legendary">MEDAL LEGENDARY (11-15)</h2>
+                <p style="text-align:center;color:#ff0000;margin-bottom:30px;font-weight:700;letter-spacing:1px">⚠️ UNOBTAINABLE - LEADERSHIP ONLY</p>
+                <div class="rank-grid">
+                    <div class="rank-card" style="border-color:rgba(255,215,0,0.3)">
+                        <div class="rank-level medal-legendary">11</div>
+                        <div class="rank-name">GENERAL</div>
+                        <div class="rank-description">Supreme authority. Total dominance.</div>
+                    </div>
+                    <div class="rank-card" style="border-color:rgba(255,215,0,0.3)">
+                        <div class="rank-level medal-legendary">12</div>
+                        <div class="rank-name">GENERAL OF THE ARMY</div>
+                        <div class="rank-description">Ultimate power. Control all operations.</div>
+                    </div>
+                    <div class="rank-card" style="border-color:rgba(255,215,0,0.3)">
+                        <div class="rank-level medal-legendary">13</div>
+                        <div class="rank-name">ADMIRAL</div>
+                        <div class="rank-description">Naval dominance. Legendary status.</div>
+                    </div>
+                    <div class="rank-card" style="border-color:rgba(255,215,0,0.3)">
+                        <div class="rank-level medal-legendary">14</div>
+                        <div class="rank-name">MARSHAL</div>
+                        <div class="rank-description">Field marshal. Strategic genius.</div>
+                    </div>
+                    <div class="rank-card" style="border-color:rgba(255,215,0,0.3)">
+                        <div class="rank-level medal-legendary">15</div>
+                        <div class="rank-name">COMMANDER</div>
+                        <div class="rank-description">Supreme commander. Absolute rule.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-logo">
+                        <img src="logo-transparent.png" alt="ORDA" class="footer-logo-img">
+                        <span class="logo-text">ORDER OF RUTHLESS DOMINION AND AUTHORITY</span>
+                    </div>
+                    <p class="footer-text">© 2026 Order of Ruthless Dominion and Authority. All rights reserved.</p>
+                </div>
+                <div class="footer-right">
+                    <p class="footer-social-label">FOLLOW US</p>
+                    <a href="https://www.youtube.com/@VisualLeak" target="_blank" class="social-link">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                        YOUTUBE
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="analytics.js"></script>
+    <script src="auth-system.js"></script>
+    <script src="live-viewers.js"></script>
+    <script>
+        trackPageView('ranks');
+        
+        const mobileMenuToggle=document.getElementById('mobile-menu-toggle');
+        const navMenu=document.getElementById('nav-menu');
+        if(mobileMenuToggle){
+            mobileMenuToggle.addEventListener('click',function(){
+                this.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
